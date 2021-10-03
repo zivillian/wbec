@@ -3,22 +3,22 @@
 #ifndef GLOBALCONFIG_H
 #define GLOBALCONFIG_H
 
-#define WB_CNT 			  		 16		// max. possible number of wallboxes in the system (NodeMCU has Bus-ID = 0)
-#define OPENWB_MAX_LP       8   // maximum supported loadpoints by openWB
+#define WB_CNT				16		// max. possible number of wallboxes in the system (NodeMCU has Bus-ID = 0)
+#define OPENWB_MAX_LP		8		// maximum supported loadpoints by openWB
 #define REG_WD_TIME_OUT 	257		// modbus register for "ModBus-Master Watchdog Timeout in ms"
 #define REG_STANDBY_CTRL	258		// modbus register for "Standby Function Control"
 #define REG_REMOTE_LOCK 	259		// modbus register for "Remote lock (only if extern lock unlocked)"
 #define REG_CURR_LIMIT		261		// modbus register for "Maximal current command"
 #define REG_CURR_LIMIT_FS 262		// modbus register for "FailSafe Current configuration (in case loss of Modbus communication)"
 
-#define CURR_ABS_MIN			 60		// absolute possible lower limit for current
-#define CURR_ABS_MAX			160		// absolute possible upper limit for current
+#define CURR_ABS_MIN		60		// absolute possible lower limit for current
+#define CURR_ABS_MAX		160		// absolute possible upper limit for current
 
-#define PIN_DI							5		// GPIO5, NodeMCU pin D1 --> connect to DI (Transmit to Modbus)
-#define PIN_RO							2		// GPIO2, NodeMCU pin D4 --> connect to RO (Receive from Modbus)
-#define PIN_DE_RE					  4		// GPIO4, NodeMCU pin D2 --> connect to DE & RE
-#define PIN_RST							0		// GPIO0, NodeMCU pin D3 
-#define PIN_SS						 15		// GPIO15,NodeMCU pin D8
+#define PIN_DI				5		// GPIO5, NodeMCU pin D1 --> connect to DI (Transmit to Modbus)
+#define PIN_RO				2		// GPIO2, NodeMCU pin D4 --> connect to RO (Receive from Modbus)
+#define PIN_DE_RE			-1		// GPIO4, NodeMCU pin D2 --> connect to DE & RE
+#define PIN_RST				0		// GPIO0, NodeMCU pin D3 
+#define PIN_SS				15		// GPIO15,NodeMCU pin D8
 
 extern char     cfgWbecVersion[];	           // wbec version
 extern char     cfgBuildDate[];	          	 // wbec build date
