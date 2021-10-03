@@ -4,7 +4,7 @@
 #include "mbComm.h"
 
 uint8_t currTot = 180;
-uint8_t currLim[16];
+uint8_t currLim[WB_CNT];
 
 
 uint8_t lm_getWbLimit(uint8_t id) {

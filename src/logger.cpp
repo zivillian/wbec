@@ -87,6 +87,7 @@ void logger_allocate() {
 
 void logger_begin() {
   // call this once the values from config are available
+#ifndef WEMOS_D1
   if (!strcmp(cfgFoxUser, "") || !strcmp(cfgFoxPass, "") || !strcmp(cfgFoxDevId, "")) {
     // powerfox is NOT configured => extend bootlog
     char * tmpPtr;
@@ -95,7 +96,8 @@ void logger_begin() {
     strncpy(tmpPtr, bootLog, bootLogSize);  // copy content from old bootlog
     free(bootLog);
     bootLog = tmpPtr;                       // set bootLog pointer to new larger area
-  } 
+  }
+#endif /* WEMOS_D1 */
   // connect to NTP time server
   timeClient.begin();
 }

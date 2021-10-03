@@ -26,12 +26,14 @@ void webSocketEvent(byte num, WStype_t type, uint8_t * payload, size_t length) {
 			pch = strtok((char *)payload, "=");
 			pch = strtok(NULL, "=");
 			mb_writeReg(0, REG_CURR_LIMIT, atoi(pch));
+#ifndef WEMOS_D1
 		} else if (strstr_P((char *)payload, PSTR("PV_OFF"))) {
 			pf_setMode(PV_OFF);
 		} else if (strstr_P((char *)payload, PSTR("PV_ACTIVE"))) {
 			pf_setMode(PV_ACTIVE);
 		} else if (strstr_P((char *)payload, PSTR("PV_MIN_PV"))) {
 			pf_setMode(PV_MIN_PV);
+#endif /* WEMOS_D1 */
 		}
 	} 
 }
@@ -57,8 +59,10 @@ void webSocket_handle() {
 	data[F("power")]    = content[id][10];
 	data[F("energyI")]  = (float)((uint32_t) content[id][13] << 16 | (uint32_t)content[id][14]) / 1000.0;
 	data[F("currLim")]  = (float)content[id][53]/10.0;
+#ifndef WEMOS_D1
 	data[F("watt")]     = pf_getWatt();
 	data[F("pvMode")]   = pf_getMode();
+#endif /* WEMOS_D1 */
 	data[F("timeNow")]   = log_time();
 	char response[JSON_LEN];
 	serializeJson(data, response, JSON_LEN);

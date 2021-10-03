@@ -57,7 +57,9 @@ void setup() {
   mb_setup();
   mqtt_begin();
   rfid_setup();
+#ifndef WEMOS_D1
   powerfox_setup();
+#endif /* WEMOS_D1 */
   Serial.print(F("Boot time: ")); Serial.println(millis());
   Serial.print(F("Free heap: ")); Serial.println(ESP.getFreeHeap());
 }
@@ -73,7 +75,9 @@ void loop() {
     webServer_handle();
     webSocket_handle();
     rfid_loop();
-    powerfox_loop(); 
+#ifndef WEMOS_D1
+    powerfox_loop();
+#endif /* WEMOS_D1 */
     //pc_handle();
   }
 }

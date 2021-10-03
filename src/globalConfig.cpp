@@ -23,6 +23,7 @@ char     cfgMqttUser[32];             // MQTT: Username
 char     cfgMqttPass[32];             // MQTT: Password
 uint8_t  cfgMqttLp[WB_CNT];           // Array with assignments to openWB loadpoints, e.g. [4,2,0,1]: Box0 = LP4, Box1 = LP2, Box2 = no MQTT, Box3 = LP1
 char     cfgNtpServer[30];            // NTP server
+#ifndef WEMOS_D1
 char     cfgFoxUser[32];              // powerfox: Username
 char     cfgFoxPass[16];              // powerfox: Password
 char     cfgFoxDevId[16];             // powerfox: DeviceId
@@ -31,6 +32,7 @@ uint8_t  cfgPvLimStart;		            // PV charging: Target current needed for s
 uint8_t  cfgPvLimStop;		            // PV charging: Target current to stop charging when below (in 0.1A)
 uint8_t  cfgPvPhFactor;		            // PV charging: Power/Current factor, e.g. 69: 1A equals 690W at 3phases, 23: 1A equals 230W at 1phase
 uint16_t cfgPvOffset;                 // PV charging: Offset for the available power calculation (in W); can be used to assure that no/less current is consumed from net
+#endif /* WEMOS_D1 */
 
 
 bool createConfig() {
@@ -50,11 +52,13 @@ bool createConfig() {
   doc["cfgMqttPass"]            = F("");
   doc["cfgMqttLp"]              = serialized("[]");   // already serialized
   doc["cfgNtpServer"]           = F("europe.pool.ntp.org");
+#ifndef WEMOS_D1
   doc["cfgFoxUser"]             = F("");
   doc["cfgFoxPass"]             = F("");
   doc["cfgFoxDevId"]            = F("");
   // ... Pv parameters not yet in; to be created manually if needed
   // -------------------------------------
+#endif /* WEMOS_D1 */
   
   File configFile = LittleFS.open(F("/cfg.json"), "w");
   if (!configFile) {
@@ -125,6 +129,7 @@ void loadConfig() {
   strncpy(cfgMqttUser,        doc["cfgMqttUser"]          | "",                 sizeof(cfgMqttUser));
   strncpy(cfgMqttPass,        doc["cfgMqttPass"]          | "",                 sizeof(cfgMqttPass));
   strncpy(cfgNtpServer,       doc["cfgNtpServer"]         | "europe.pool.ntp.org", sizeof(cfgNtpServer));
+#ifndef WEMOS_D1
   strncpy(cfgFoxUser,         doc["cfgFoxUser"]           | "",                 sizeof(cfgFoxUser));
   strncpy(cfgFoxPass,         doc["cfgFoxPass"]           | "",                 sizeof(cfgFoxPass));
   strncpy(cfgFoxDevId,        doc["cfgFoxDevId"]          | "",                 sizeof(cfgFoxDevId));
@@ -133,6 +138,7 @@ void loadConfig() {
   cfgPvLimStop               = doc["cfgPvLimStop"]        | 50; 
   cfgPvPhFactor              = doc["cfgPvPhFactor"]         | 69; 
   cfgPvOffset                = doc["cfgPvOffset"]         | 0UL;
+#endif /* WEMOS_D1 */
 	
   LOG(m, "cfgWbecVersion: %s", cfgWbecVersion);
   LOG(m, "cfgBuildDate: %s"  , cfgBuildDate);

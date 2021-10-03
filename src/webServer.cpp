@@ -263,8 +263,10 @@ void webServer_begin() {
     data[F("rfid")][F("enabled")] = rfid_getEnabled();
     data[F("rfid")][F("release")] = rfid_getReleased();
     data[F("rfid")][F("lastId")]  = rfid_getLastID();
+#ifndef WEMOS_D1
     data[F("pfox")][F("mode")]    = pf_getMode();
     data[F("pfox")][F("watt")]    = pf_getWatt();
+#endif /* WEMOS_D1 */
     data[F("wifi")][F("mac")] = WiFi.macAddress();
     int qrssi = WiFi.RSSI();
     data[F("wifi")][F("rssi")] = qrssi;
@@ -316,6 +318,7 @@ void webServer_begin() {
     request->send(200, F("text/plain"), String(pc_getState()));
   });
 
+#ifndef WEMOS_D1
   server.on("/pfox", HTTP_GET, [](AsyncWebServerRequest *request) {
     StaticJsonDocument<PFOX_JSON_LEN> data;
     uint8_t id = 0;
@@ -339,6 +342,7 @@ void webServer_begin() {
     serializeJson(data, response, PFOX_JSON_LEN);
     request->send(200, F("application/json"), response);
   });
+#endif /* WEMOS_D1 */
 
   server.on("/status", HTTP_GET, [](AsyncWebServerRequest *request) {
     uint8_t id = 0;

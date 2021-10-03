@@ -3,7 +3,11 @@
 #ifndef GLOBALCONFIG_H
 #define GLOBALCONFIG_H
 
+#ifdef WEMOS_D1
+#define WB_CNT				1		// max. possible number of wallboxes in the system (NodeMCU has Bus-ID = 0)
+#else
 #define WB_CNT				16		// max. possible number of wallboxes in the system (NodeMCU has Bus-ID = 0)
+#endif /* WEMOS_D1 */
 #define OPENWB_MAX_LP		8		// maximum supported loadpoints by openWB
 #define REG_WD_TIME_OUT 	257		// modbus register for "ModBus-Master Watchdog Timeout in ms"
 #define REG_STANDBY_CTRL	258		// modbus register for "Standby Function Control"
@@ -16,7 +20,9 @@
 
 #define PIN_DI				5		// GPIO5, NodeMCU pin D1 --> connect to DI (Transmit to Modbus)
 #define PIN_RO				2		// GPIO2, NodeMCU pin D4 --> connect to RO (Receive from Modbus)
-#define PIN_DE_RE			-1		// GPIO4, NodeMCU pin D2 --> connect to DE & RE
+#ifndef PIN_DE_RE
+#define PIN_DE_RE			4		// GPIO4, NodeMCU pin D2 --> connect to DE & RE
+#endif /* WEMOS_D1 */
 #define PIN_RST				0		// GPIO0, NodeMCU pin D3 
 #define PIN_SS				15		// GPIO15,NodeMCU pin D8
 
@@ -35,6 +41,7 @@ extern char     cfgMqttUser[32];             // MQTT: Username
 extern char     cfgMqttPass[32];             // MQTT: Password
 extern uint8_t  cfgMqttLp[WB_CNT];           // Array with assignments to openWB loadpoints, e.g. [4,2,0,1]: Box0 = LP4, Box1 = LP2, Box2 = no MQTT, Box3 = LP1
 extern char     cfgNtpServer[30];            // NTP server
+#ifndef WEMOS_D1
 extern char     cfgFoxUser[32];              // powerfox: Username
 extern char     cfgFoxPass[16];              // powerfox: Password
 extern char     cfgFoxDevId[16];             // powerfox: DeviceId
@@ -43,6 +50,7 @@ extern uint8_t  cfgPvLimStart;		           // PV charging: Target current needed
 extern uint8_t  cfgPvLimStop;		             // PV charging: Target current to stop charging when below (in 0.1A)
 extern uint8_t  cfgPvPhFactor;		           // PV charging: Power/Current factor, e.g. 69: 1A equals 690W at 3phases, 23: 1A equals 230W at 1phase
 extern uint16_t cfgPvOffset;                 // PV charging: Offset for the available power calculation (in W); can be used to assure that no/less current is consumed from net
+#endif /* WEMOS_D1 */
 
 extern void loadConfig();
 

@@ -1,5 +1,6 @@
 // Copyright (c) 2021 steff393, MIT license
 
+#ifndef WEMOS_D1
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "globalConfig.h"
@@ -192,3 +193,4 @@ void pf_setMode(uint8_t val) {
 	pvMode = val;
 	rtc.saveToRTC();   // memorize over reset
 }
+#endif /* WEMOS_D1 */
